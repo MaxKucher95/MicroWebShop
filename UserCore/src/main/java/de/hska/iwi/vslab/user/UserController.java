@@ -1,6 +1,4 @@
-package de.hska.iwi.vslab.usrv;
-
-import java.util.Optional;
+package de.hska.iwi.vslab.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

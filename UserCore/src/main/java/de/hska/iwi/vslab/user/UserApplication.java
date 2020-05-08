@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab;
+package de.hska.iwi.vslab.user;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

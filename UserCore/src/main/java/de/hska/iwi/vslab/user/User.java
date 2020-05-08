@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.usrv;
+package de.hska.iwi.vslab.user;
 
 @javax.persistence.Entity
 public class User 
