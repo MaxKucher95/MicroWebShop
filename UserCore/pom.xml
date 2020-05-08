@@ -15,6 +15,7 @@
   <properties>
     <java.version>1.8</java.version>
     <azure.version>2.2.0</azure.version>
+    <spring-cloud.version>Hoxton.SR4</spring-cloud.version>
   </properties>
   <dependencies>
     <dependency>
@@ -38,6 +39,10 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.hsqldb</groupId>
       <artifactId>hsqldb</artifactId>
       <scope>runtime</scope>
@@ -46,9 +51,9 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-spring-boot-bom</artifactId>
-        <version>${azure.version}</version>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>${spring-cloud.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
