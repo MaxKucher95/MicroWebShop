@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.product_core.product;
+package de.hska.iwi.vslab.product_core;
 
 @javax.persistence.Entity
 public class Product {
