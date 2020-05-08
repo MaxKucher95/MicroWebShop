@@ -11,7 +11,7 @@ public class UserController {
     private UserRepo repo;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public ResponseEntity<Iterable<User>> getUser() {
+    public ResponseEntity<Iterable<User>> getUsers() {
         Iterable<User> allPolls = repo.findAll();
         return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
@@ -19,13 +19,13 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<?> addUser(@RequestBody User user) {
         user = repo.save(user);
-        return new ResponseEntity<>(null, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     public ResponseEntity<User> getUser(@PathVariable Long userId) {
         if(!repo.existsById(userId)) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         User user = repo.findById(userId).get();
@@ -33,17 +33,36 @@ public class UserController {
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.PUT)
-    public ResponseEntity<User> putUser(@PathVariable Long userId, @PathVariable String userName, @PathVariable String userPassword)
+    public ResponseEntity<User> putUser(
+        @PathVariable Long userId,
+        @PathVariable String firstName,
+        @PathVariable String lastName, 
+        @PathVariable String userName, 
+        @PathVariable String userPassword,
+        @PathVariable Boolean role)
     {
         if(!repo.existsById(userId)) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         User user = repo.findById(userId).get();
-        user.setId(userId);
-        user.setName(userName);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUserName(userName);
         user.setPassword(userPassword);
+        user.setRole(role);
         repo.save(user);
         return new ResponseEntity<>(null, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/users/{userId}", method = RequestMethod.DELETE)
+    public ResponseEntity<User> deleteUser(@PathVariable Long userId)
+    {
+        if(!repo.existsById(userId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        repo.delete(repo.findById(userId).get());
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
