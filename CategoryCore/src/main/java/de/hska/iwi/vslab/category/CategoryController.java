@@ -47,4 +47,15 @@ public class CategoryController {
       return new ResponseEntity<>(null, HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.DELETE)
+  public ResponseEntity<Category> deleteCategory(@PathVariable Long categoryID) {
+    if(!repo.existsById(categoryID)) {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    Category category = repo.findById(categoryID).get();
+    repo.delete(category);
+    return new ResponseEntity<>(null, HttpStatus.OK);
+  }
+
 }
