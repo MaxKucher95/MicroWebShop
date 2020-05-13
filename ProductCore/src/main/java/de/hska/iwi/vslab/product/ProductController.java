@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.product_core;
+package de.hska.iwi.vslab.product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
