@@ -1,0 +1,15 @@
+server:
+  port: 8084
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    statusPageUrlPath: /info
+    healthCheckUrlPath: /health
+zuul:
+  ignoredServices: '*'
+  routes:
+    catalogue: /catalogue/**
+    category: /category/**
+    product: /product/**
+    products: /products/**
+    users: /users/**
