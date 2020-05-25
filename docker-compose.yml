@@ -1,0 +1,46 @@
+version: '3.4'
+services:
+  Eureka:
+    image: eureka
+    ports:
+      - "8761:8761"
+  ProductCore:
+    image: product-core
+    links:
+      - Eureka
+    depends_on:
+      - Eureka
+    ports:
+      - "8081:8081"
+  UserCore:
+    image: user-core
+    links:
+      - Eureka
+    depends_on:
+      - Eureka
+    ports:
+      - "8069:8069"
+  CatalogueComposite:
+    image: catalogue-composite
+    links:
+      - Eureka
+    depends_on:
+      - Eureka
+    ports:
+      - "8083:8083"
+  CategoryCore:
+    image: category-core
+    links:
+      - Eureka
+    depends_on:
+      - Eureka
+    ports:
+      - "8082:8082"
+  Zuul:
+    image: zuul
+    links:
+      - Eureka
+    depends_on:
+      - Eureka
+    ports:
+      - "8084:8084"
