@@ -2,8 +2,14 @@ version: '3.4'
 services:
   Eureka:
     image: eureka
+    hostname: Eureka
     ports:
       - "8761:8761"
+    networks:
+        local_dev_net:
+            ipv4_address: 172.28.1.1
+            aliases:
+                - Eureka
   ProductCore:
     image: product-core
     links:
@@ -12,6 +18,11 @@ services:
       - Eureka
     ports:
       - "8081:8081"
+    networks:
+        local_dev_net:
+            ipv4_address: 172.28.1.2
+            aliases:
+                - ProductCore
   UserCore:
     image: user-core
     links:
@@ -20,14 +31,26 @@ services:
       - Eureka
     ports:
       - "8069:8069"
+    networks:
+        local_dev_net:
+            ipv4_address: 172.28.1.3
+            aliases:
+                - user
   CatalogueComposite:
     image: catalogue-composite
     links:
       - Eureka
+      - ProductCore
+      - CategoryCore
     depends_on:
       - Eureka
     ports:
       - "8083:8083"
+    networks:
+        local_dev_net:
+            ipv4_address: 172.28.1.4
+            aliases:
+                - catalogue
   CategoryCore:
     image: category-core
     links:
@@ -36,6 +59,11 @@ services:
       - Eureka
     ports:
       - "8082:8082"
+    networks:
+        local_dev_net:
+            ipv4_address: 172.28.1.5
+            aliases:
+                - CategoryCore
   Zuul:
     image: zuul
     links:
@@ -44,3 +72,17 @@ services:
       - Eureka
     ports:
       - "8084:8084"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://Eureka:8761/eureka
+    networks:
+        local_dev_net:
+            ipv4_address: 172.28.1.6
+            aliases:
+                - zuul
+networks:
+  local_dev_net:
+    driver: bridge
+    ipam:
+        driver: default
+        config:
+            - subnet: 172.28.0.0/16

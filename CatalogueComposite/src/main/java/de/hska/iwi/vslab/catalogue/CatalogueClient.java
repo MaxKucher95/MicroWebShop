@@ -1,18 +1,22 @@
 package de.hska.iwi.vslab.catalogue;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
 @Component
@@ -26,13 +30,15 @@ public class CatalogueClient {
 
     @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
     @RequestMapping(value = "/catalogue/{categoryID}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteCategory(Long categoryID) {
-        LinkedHashMap<Long, Product> products = restTemplate.getForObject("http://product-service/products", LinkedHashMap.class);
+    public ResponseEntity<?> deleteCategory(@PathVariable Long categoryID) {
 
-        for(Map.Entry<Long, Product> entry : products.entrySet()) {
-            Product product = entry.getValue();
-            if(product.getCategory() == categoryID) {
-                restTemplate.delete("http://product-service/product/" + product.getId(), Product.class);
+        ResponseEntity<List<Product>> response = restTemplate.exchange("http://product-service/products", HttpMethod.GET, null, new ParameterizedTypeReference<List<Product>>(){});
+        List<Product> prds = response.getBody();
+        
+        for (int i = 0; i < prds.size(); i++) {
+          
+            if(prds.get(i).getCategory() == categoryID) {
+                restTemplate.delete("http://product-service/product/" + prds.get(i).getId(), Product.class);
             }
         }
 

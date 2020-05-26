@@ -1,5 +1,6 @@
 package de.hska.iwi.vslab.product;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +12,10 @@ public class ProductController {
   private ProductRepo repo;
 
   @RequestMapping(value = "/products", method = RequestMethod.GET)
-  public ResponseEntity<Iterable<Product>> getProducts() {
-      Iterable<Product> allPolls = repo.findAll();
-      return new ResponseEntity<>(allPolls, HttpStatus.OK);
+  public ResponseEntity<List<Product>> getProducts() {
+      List<Product> list = new ArrayList<>();
+      repo.findAll().forEach(e -> list.add(e));
+      return new ResponseEntity<List<Product>>(list, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/products", method = RequestMethod.POST)
