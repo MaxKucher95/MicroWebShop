@@ -23,12 +23,12 @@ public class CategoryController {
   }
 
   @RequestMapping(value = "/category/{categoryID}", method = RequestMethod.GET)
-  public ResponseEntity<Category> getCategory(@PathVariable Long categoryId) {
-      if(!repo.existsById(categoryId)) {
+  public ResponseEntity<Category> getCategory(@PathVariable Long categoryID) {
+      if(!repo.existsById(categoryID)) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
 
-      Category category = repo.findById(categoryId).get();
+      Category category = repo.findById(categoryID).get();
       return new ResponseEntity<>(category, HttpStatus.OK);
   }
 
