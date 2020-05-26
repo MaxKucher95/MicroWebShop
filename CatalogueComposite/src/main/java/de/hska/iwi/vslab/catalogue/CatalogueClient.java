@@ -8,9 +8,15 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 
 @Component
+@RestController
 public class CatalogueClient {
     private final Map<Long, Category> categoryCache = new LinkedHashMap<Long, Category>();
     private final Map<Long, Product> productCache = new LinkedHashMap<Long, Product>();
@@ -18,9 +24,9 @@ public class CatalogueClient {
     @Autowired
     private RestTemplate restTemplate;
 
-    @HystrixCommand(fallbackMethod = "deleteCategoryCache", commandProperties = {
-        @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
-    public void deleteCategory(Long categoryID) {
+    @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
+    @RequestMapping(value = "/catalogue/{categoryID}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteCategory(Long categoryID) {
         Iterable<Product> products = restTemplate.getForObject("http://product-service/products", Iterable.class);
         while(products.iterator().hasNext()) {
             Product product = products.iterator().next();
@@ -29,6 +35,7 @@ public class CatalogueClient {
             }
         }
         restTemplate.delete("http://category-service/category/" + categoryID, Category.class);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     public Category getCategoryCache(Long categoryID) {
