@@ -23,24 +23,24 @@ public class ProductController {
   }
 
   @RequestMapping(value = "/product/{productID}", method = RequestMethod.GET)
-  public ResponseEntity<Product> getProduct(@PathVariable Long productId) {
-      if(!repo.existsById(productId)) {
+  public ResponseEntity<Product> getProduct(@PathVariable Long productID) {
+      if(!repo.existsById(productID)) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
 
-      Product product = repo.findById(productId).get();
+      Product product = repo.findById(productID).get();
       return new ResponseEntity<>(product, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/product/{productID}", method = RequestMethod.PUT)
-  public ResponseEntity<Product> putProduct(@PathVariable Long productId, @PathVariable String name, @PathVariable String details,
+  public ResponseEntity<Product> putProduct(@PathVariable Long productID, @PathVariable String name, @PathVariable String details,
                                             @PathVariable double price, @PathVariable int category)
   {
-      if(!repo.existsById(productId)) {
+      if(!repo.existsById(productID)) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
 
-      Product prd = repo.findById(productId).get();
+      Product prd = repo.findById(productID).get();
       prd.setName(name);
       prd.setDetails(details);
       prd.setPrice(price);
@@ -50,12 +50,12 @@ public class ProductController {
   }
 
   @RequestMapping(value = "/product/{productID}", method = RequestMethod.DELETE)
-  public ResponseEntity<Product> deleteProduct(@PathVariable Long productId) {
-      if(!repo.existsById(productId)) {
+  public ResponseEntity<Product> deleteProduct(@PathVariable Long productID) {
+      if(!repo.existsById(productID)) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
       }
 
-      repo.delete(repo.findById(productId).get());
+      repo.delete(repo.findById(productID).get());
       return new ResponseEntity<>(HttpStatus.OK);
   } 
 }
