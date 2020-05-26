@@ -32,7 +32,7 @@ public class ProductController {
       return new ResponseEntity<>(product, HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/product/{productID}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/product/{productID}/{name}/{details}/{price}/{category}", method = RequestMethod.PUT)
   public ResponseEntity<Product> putProduct(@PathVariable Long productID, @PathVariable String name, @PathVariable String details,
                                             @PathVariable double price, @PathVariable int category)
   {

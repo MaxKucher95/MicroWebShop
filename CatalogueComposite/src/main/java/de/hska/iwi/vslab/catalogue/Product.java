@@ -2,22 +2,22 @@ package de.hska.iwi.vslab.catalogue;
 
 @javax.persistence.Entity
 public class Product {
-  @javax.persistence.Id
-  @javax.persistence.GeneratedValue
-  @javax.persistence.Column(name="PRODUCT_ID")
-  private Long id;
+	@javax.persistence.Id
+	@javax.persistence.GeneratedValue
+	@javax.persistence.Column(name="PRODUCT_ID")
+	private Long id;
 
-  @javax.persistence.Column(name="PRODUCT_NAME")
-  private String name;
+	@javax.persistence.Column(name="PRODUCT_NAME")
+	private String name;
 
-  @javax.persistence.Column(name="PRODUCT_DETAILS")
-  private String details;
+	@javax.persistence.Column(name="PRODUCT_DETAILS")
+	private String details;
 
-  @javax.persistence.Column(name="PRODUCT_PRICE")
-  private double price;
+	@javax.persistence.Column(name="PRODUCT_PRICE")
+	private double price;
 
-  @javax.persistence.Column(name="PRODUCT_CATEGORY")
-  private int category;
+	@javax.persistence.Column(name="PRODUCT_CATEGORY")
+	private int category;
 
 	public Long getId() {
 		return this.id;

@@ -27,13 +27,15 @@ public class CatalogueClient {
     @HystrixCommand(commandProperties = { @HystrixProperty(name = "circuitBreaker.requestVolumeThreshold", value = "2") })
     @RequestMapping(value = "/catalogue/{categoryID}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteCategory(Long categoryID) {
-        Iterable<Product> products = restTemplate.getForObject("http://product-service/products", Iterable.class);
-        while(products.iterator().hasNext()) {
-            Product product = products.iterator().next();
+        LinkedHashMap<Long, Product> products = restTemplate.getForObject("http://product-service/products", LinkedHashMap.class);
+
+        for(Map.Entry<Long, Product> entry : products.entrySet()) {
+            Product product = entry.getValue();
             if(product.getCategory() == categoryID) {
-                restTemplate.delete("http://prduct-service/product/" + product.getId(), Product.class);
+                restTemplate.delete("http://product-service/product/" + product.getId(), Product.class);
             }
         }
+
         restTemplate.delete("http://category-service/category/" + categoryID, Category.class);
         return new ResponseEntity<>(HttpStatus.OK);
     }
