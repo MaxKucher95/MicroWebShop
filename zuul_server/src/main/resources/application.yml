@@ -1,10 +1,20 @@
+spring:
+  application:
+    name: zuul
+  cloud:
+    config:
+      enabled: false
 server:
   port: 8084
 eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    statusPageUrlPath: /info
-    healthCheckUrlPath: /health
+    client:
+        serviceUrl:
+            defaultZone: http://Eureka:8761/eureka/
+        instance:
+            preferIpAdress: true
+            leaseRenewalIntervallInSeconds: 5
+            metadataMap:
+                instanceId: "${spring.application.name}:${random.value}"
 zuul:
   ignoredServices: '*'
   routes:

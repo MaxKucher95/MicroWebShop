@@ -3,7 +3,7 @@ server:
 spring:
     application:
         name: catalogue-service
-
+management.endpoints.web.exposure.include: hystrix.stream
 eureka:
     client:
         serviceUrl:
