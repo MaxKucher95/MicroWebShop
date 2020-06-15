@@ -13,6 +13,14 @@ public class UserController {
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ResponseEntity<Iterable<User>> getUsers() {
         Iterable<User> allPolls = repo.findAll();
+
+        User user = new User();
+        user.setFirstName("oauth");
+        user.setLastName("lastName");
+        user.setUserName("oauthuser");
+        user.setPassword("oauthpassword");
+        user.setRole("USER");
+        repo.save(user);
         return new ResponseEntity<>(allPolls, HttpStatus.OK);
     }
 
@@ -39,7 +47,7 @@ public class UserController {
         @PathVariable String lastName, 
         @PathVariable String userName, 
         @PathVariable String userPassword,
-        @PathVariable Boolean role)
+        @PathVariable String role)
     {
         if(!repo.existsById(userId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -64,5 +72,23 @@ public class UserController {
 
         repo.delete(repo.findById(userId).get());
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/login")
+    public ResponseEntity<User> login(@RequestParam(name = "username", required = true) String username,
+        @RequestParam(name = "password", required = true) String password) {
+
+      Iterable<User> users = repo.findAll();
+      for(User u: users){
+        if (u.getUserName().equals(username)) {
+          if (u.getPassword().equals(password)) {
+            return new ResponseEntity<>(u, HttpStatus.ACCEPTED);
+          } else {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+          }
+        }
+      }
+
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

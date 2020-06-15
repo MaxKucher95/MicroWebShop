@@ -1,0 +1,16 @@
+server:
+    port: 8090
+    servlet:
+      context-path: /auth
+spring:
+    application:
+        name: oauth-service
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:8761/eureka/
+        instance:
+            preferIpAdress: true
+            leaseRenewalIntervallInSeconds: 5
+            metadataMap:
+                instanceId: "${spring.application.name}:${random.value}"

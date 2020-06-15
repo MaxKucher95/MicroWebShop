@@ -1,15 +1,33 @@
 server:
   port: 8081
 spring:
+  main:
+    allow-bean-definition-overriding: true
   application:
     name: product-service
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://Eureka:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
     instance:
       preferIpAddress: true
       leaseRenewalIntervalInSeconds: 5
       metadataMap:
         instanceId: "${spring.application.name}:${random.value}"
+security:
+  oauth2:
+    client:
+      clientId: messaging-client
+      clientSecret: secret
+      access-token-uri: http://localhost:8090/auth/oauth/token
+      grant-type: authorization_code
+      user-authorization-uri: http://localhost:8090/auth/oauth/authorize
+    resource:
+      jwk.key-set-uri: http://localhost:8090/auth/oauth2/keys
+      #user-info-uri: http://user-core-service:9876/current
+
+#security:
+#  oauth2:
+#    resource:
+#      jwk.key-set-uri: http://localhost:8090/auth/oauth2/keys
