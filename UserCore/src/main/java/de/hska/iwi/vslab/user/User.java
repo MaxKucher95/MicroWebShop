@@ -21,7 +21,7 @@ public class User
     private String password;
 
     @javax.persistence.Column(name="USER_ROLE")
-    private Boolean role;
+    private Role role;
 
     public Long getId() {
         return id;
@@ -63,11 +63,11 @@ public class User
         this.password = password;
     }
 
-    public Boolean getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(Boolean role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 }
