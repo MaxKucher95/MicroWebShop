@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: role-service
+
+eureka:
+  client:
+    serviceUrl:
+      #defaultZone: http://Eureka:8761/eureka
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      preferIpAdress: true
+      leaseRenewalIntervallInSeconds: 5
+      metadataMap:
+          instanceId: "${spring.application.name}:${random.value}"
