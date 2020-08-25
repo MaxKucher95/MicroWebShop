@@ -1,11 +1,8 @@
-package de.hska.iwi.vslab.rolecore;
+package de.hska.iwi.vislab.rolecore;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class RoleService {
@@ -13,7 +10,7 @@ public class RoleService {
     @Autowired
     RoleRepository roleRepo;
 
-    public Role[] getAllRoles(){
+   public Role[] getAllRoles(){
         List<Role> list = roleRepo.findAll();
         Role[] roles = new Role[list.size()];
         roles = list.toArray(roles);
@@ -36,14 +33,13 @@ public class RoleService {
         roleRepo.save(role);
     }
 
-    public long deleteAllRoles(){
-        long deleted = 0;
+    public void deleteAllRoles(){
         for(Role role: roleRepo.findAll())
-            deleted += roleRepo.deleteById(role.getId());
-        return deleted;
+            roleRepo.delete(role);
     }
 
-    public long deleteRole(int id){
-        return roleRepo.deleteById(id);
+    public void deleteRole(int id){
+        Role role = roleRepo.findById(id);
+        roleRepo.delete(role);
     }
 }

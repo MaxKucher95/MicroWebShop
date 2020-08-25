@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.rolecore;
+package de.hska.iwi.vislab.rolecore;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

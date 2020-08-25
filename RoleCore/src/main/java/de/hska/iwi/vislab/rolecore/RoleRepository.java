@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.rolecore;
+package de.hska.iwi.vislab.rolecore;
 
 import java.util.List;
 import org.springframework.data.repository.CrudRepository;
@@ -11,7 +11,7 @@ public interface RoleRepository extends CrudRepository<Role, Long> {
 
     List<Role> findAll();
 
-    long deleteById(int id);
+    int deleteById(int id);
 
-    long deleteByType(String type);
+    int deleteByType(String type);
 }

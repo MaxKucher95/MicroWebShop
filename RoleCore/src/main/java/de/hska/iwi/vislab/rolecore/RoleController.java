@@ -1,19 +1,30 @@
-package de.hska.iwi.vslab.rolecore;
+package de.hska.iwi.vislab.rolecore;
 
-
-import java.util.List;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
+@EnableCircuitBreaker
 public class RoleController {
 
     @Autowired
     private RoleService roleService;
 
     @GetMapping("/role")
-    public Role[] getAllRoles() {
-        return roleService.getAllRoles();
+    public Role[] getAllRoles()
+    {
+        try
+        {
+            return roleService.getAllRoles();
+        } catch (
+                Exception e) {
+            return null;
+        }
     }
 
     @GetMapping("/role/{input}")
@@ -31,8 +42,8 @@ public class RoleController {
         roleService.addRole(role);
     }
 
-    @PutMapping(path="/role/{id}", consumes="application/json")
-    public void updateRole(@RequestBody(required=true) Role role) {
+    @RequestMapping(path="/role/{id}", method=RequestMethod.PUT, consumes="application/json")
+    public void updateRole(@PathVariable int id, @RequestBody(required=true) Role role) {
         roleService.updateRole(role);
     }
 

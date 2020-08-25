@@ -1,4 +1,4 @@
-package de.hska.iwi.vslab.rolecore;
+package de.hska.iwi.vislab.rolecore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,7 +27,7 @@ public class Role {
         return String.format("Role[id=%d, type='%s', level=%d]", id, type, level);
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -35,7 +35,7 @@ public class Role {
         return type;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 }
